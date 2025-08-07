@@ -1,18 +1,25 @@
-using DevTalks.Contracts;
+using DevTalks.Application.Questions;
+using DevTalks.Contracts.Questions;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DevTalks.Presenters;
+namespace DevTalks.Presenters.Questions;
 
 [ApiController]
 [Route("[controller]")]
 public class QuestionsController : ControllerBase
 {
-    [HttpPost]
-    public async Task<IActionResult> Create(
-        [FromBody] CreateQuestionDto request,
-        CancellationToken cancellationToken)
+    private readonly IQuestionsService _questionsService;
+
+    public QuestionsController(IQuestionsService questionsService)
     {
-        return Ok("Question created");
+        _questionsService = questionsService;
+    }
+    
+    [HttpPost]
+    public async Task<IActionResult> Create([FromBody] CreateQuestionDto request, CancellationToken cancellationToken)
+    {
+        var questionId = await _questionsService.Create(request, cancellationToken);
+        return Ok(questionId);
     }
 
     [HttpGet]
