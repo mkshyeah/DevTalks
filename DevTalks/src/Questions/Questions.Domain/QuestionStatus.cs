@@ -1,4 +1,4 @@
-﻿namespace DevTalks.Domain.Questions;
+﻿namespace Questions.Domain;
 
 public enum QuestionStatus
 {
